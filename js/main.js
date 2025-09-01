@@ -10,7 +10,8 @@ let services = [
     { key: 'carpentry', color: 0x00ff00 },
     { key: 'plumbing', color: 0xff00ff },
     { key: 'electrical', color: 0x0000ff },
-    { key: 'mechanical', color: 0xffff00 }
+    { key: 'mechanical', color: 0xffff00 },
+    { key: 'HomeServices', color: 0x00ffff }
 ];
 
 // Initialize the scene
@@ -265,7 +266,7 @@ function createServiceMeteors() {
         const textGroup = new THREE.Group();
 
         // Create background panel
-        const panelGeometry = new THREE.PlaneGeometry(2, 0.6);
+        const panelGeometry = new THREE.PlaneGeometry(2.6, 0.9);
         const panelMaterial = new THREE.MeshPhongMaterial({
             color: 0x000000,
             transparent: true,
@@ -275,7 +276,7 @@ function createServiceMeteors() {
         const panel = new THREE.Mesh(panelGeometry, panelMaterial);
         
         // Add glow to panel edges
-        const glowGeometry = new THREE.PlaneGeometry(2.1, 0.7);
+        const glowGeometry = new THREE.PlaneGeometry(2.7, 1.0);
         const glowMaterial = new THREE.MeshBasicMaterial({
             color: service.color,
             transparent: true,
@@ -287,40 +288,78 @@ function createServiceMeteors() {
         textGroup.add(glow);
         textGroup.add(panel);
 
-        // Create text texture
+        // Create text texture with larger canvas for better text fitting
         const canvas = document.createElement('canvas');
         const context = canvas.getContext('2d');
-        canvas.width = 512;
-        canvas.height = 128;
+        canvas.width = 768; // Increased canvas width for better text fitting
+        canvas.height = 192; // Increased canvas height for better text fitting
 
         // Fill background
         context.fillStyle = 'rgba(0, 0, 0, 0)';
         context.fillRect(0, 0, canvas.width, canvas.height);
 
-        // Draw text
-        context.font = 'bold 72px Arial';
-        context.textAlign = 'center';
-        context.textBaseline = 'middle';
-        
         // Get translated service name with fallback
         const serviceName = translations[currentLang]?.services?.[service.key]?.title || service.key;
         
-        // Add white outline
+        // Calculate font size to fit text within rectangle with better margins
+        let fontSize = 72; // Start with larger font size
+        let textWidth = 0;
+        let textHeight = 0;
+        
+        // Adjust starting font size based on text length
+        if (serviceName.length > 20) {
+            fontSize = 48; // Start smaller for very long text
+        } else if (serviceName.length > 15) {
+            fontSize = 56; // Start smaller for longer text
+        } else if (serviceName.length > 10) {
+            fontSize = 64; // Medium starting size
+        }
+        
+        // Find the right font size that fits with proper margins
+        do {
+            context.font = `bold ${fontSize}px Arial`;
+            const metrics = context.measureText(serviceName);
+            textWidth = metrics.width;
+            textHeight = fontSize;
+            fontSize -= 1; // Decrement by 1 for more precise fitting
+        } while ((textWidth > canvas.width * 0.70 || textHeight > canvas.height * 0.70) && fontSize > 24);
+        
+        // Ensure minimum font size for readability
+        fontSize = Math.max(fontSize, 24);
+        
+        // Final check: if text is still too wide, force smaller font size
+        if (textWidth > canvas.width * 0.75) {
+            fontSize = Math.floor(fontSize * 0.8);
+            context.font = `bold ${fontSize}px Arial`;
+            const finalMetrics = context.measureText(serviceName);
+            textWidth = finalMetrics.width;
+            textHeight = fontSize;
+        }
+        
+        // Reset font with calculated size
+        context.font = `bold ${fontSize}px Arial`;
+        context.textAlign = 'center';
+        context.textBaseline = 'middle';
+        
+        // Add white outline with proportional thickness
         context.strokeStyle = 'rgba(255, 255, 255, 0.8)';
-        context.lineWidth = 8;
+        context.lineWidth = Math.max(4, fontSize * 0.06);
         context.strokeText(serviceName, canvas.width/2, canvas.height/2);
         
-        // Add colored glow
+        // Add colored glow with proportional blur
         context.shadowColor = `rgb(${service.color >> 16}, ${(service.color >> 8) & 255}, ${service.color & 255})`;
-        context.shadowBlur = 20;
+        context.shadowBlur = fontSize * 0.2;
         context.fillStyle = '#ffffff';
         context.fillText(serviceName, canvas.width/2, canvas.height/2);
+        
+        // Debug info (can be removed in production)
+        console.log(`Service: ${serviceName}, Font size: ${fontSize}, Text width: ${textWidth}, Canvas width: ${canvas.width}, Fit ratio: ${(textWidth/canvas.width).toFixed(2)}`);
 
         const texture = new THREE.CanvasTexture(canvas);
         texture.minFilter = THREE.LinearFilter;
         texture.magFilter = THREE.LinearFilter;
 
-        const textGeometry = new THREE.PlaneGeometry(1.9, 0.5);
+        const textGeometry = new THREE.PlaneGeometry(2.4, 0.6);
         const textMaterial = new THREE.MeshBasicMaterial({
             map: texture,
             transparent: true,
@@ -334,7 +373,7 @@ function createServiceMeteors() {
         textGroup.add(textMesh);
 
         // Position text group
-        textGroup.position.set(1.2, 0.3, 0);
+        textGroup.position.set(1.5, 0.45, 0);
         serviceGroup.add(textGroup);
 
         // Set initial position

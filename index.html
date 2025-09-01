@@ -208,6 +208,11 @@
                 <h3>Mechanical</h3>
                 <p>Precision mechanical repairs and maintenance</p>
             </div>
+            <div class="service-card">
+                <div class="icon"><i class="fas fa-home"></i></div>
+                <h3>Home Services</h3>
+                <p>Comprehensive home maintenance and repair services</p>
+            </div>
         </div>
 
 
@@ -252,7 +257,8 @@ let services = [
     { key: 'carpentry', color: 0x00ff00 },
     { key: 'plumbing', color: 0xff00ff },
     { key: 'electrical', color: 0x0000ff },
-    { key: 'mechanical', color: 0xffff00 }
+    { key: 'mechanical', color: 0xffff00 },
+    { key: 'HomeServices', color: 0x00ffff }
 ];
 
 // Initialize the scene
@@ -498,7 +504,7 @@ function createServiceMeteors() {
         const textGroup = new THREE.Group();
 
         // Create background panel
-        const panelGeometry = new THREE.PlaneGeometry(2, 0.6);
+        const panelGeometry = new THREE.PlaneGeometry(2.6, 0.9);
         const panelMaterial = new THREE.MeshPhongMaterial({
             color: 0x000000,
             transparent: true,
@@ -508,7 +514,7 @@ function createServiceMeteors() {
         const panel = new THREE.Mesh(panelGeometry, panelMaterial);
         
         // Add glow to panel edges
-        const glowGeometry = new THREE.PlaneGeometry(2.1, 0.7);
+        const glowGeometry = new THREE.PlaneGeometry(2.7, 1.0);
         const glowMaterial = new THREE.MeshBasicMaterial({
             color: service.color,
             transparent: true,
@@ -520,32 +526,40 @@ function createServiceMeteors() {
         textGroup.add(glow);
         textGroup.add(panel);
 
-        // Create text texture
+        // Create text texture with larger canvas for better text fitting
         const canvas = document.createElement('canvas');
         const context = canvas.getContext('2d');
-        canvas.width = 512;
-        canvas.height = 128;
+        canvas.width = 768; // Increased canvas width for better text fitting
+        canvas.height = 192; // Increased canvas height for better text fitting
 
         // Fill background
         context.fillStyle = 'rgba(0, 0, 0, 0)';
         context.fillRect(0, 0, canvas.width, canvas.height);
 
-        // Draw text
-        context.font = 'bold 72px Arial';
-        context.textAlign = 'center';
-        context.textBaseline = 'middle';
-        
         // Get translated service name
         const serviceName = translations[currentLang].services[service.key].title;
         
-        // Add white outline
-        context.strokeStyle = 'rgba(255, 255, 255, 0.8)';
-        context.lineWidth = 8;
+        // Use consistent font size for all services
+        const fontSize = 64; // Fixed size for all services
+        
+        // Set font properties
+        context.font = `bold ${fontSize}px Arial`;
+        context.textAlign = 'center';
+        context.textBaseline = 'middle';
+        
+        // Calculate text dimensions
+        const metrics = context.measureText(serviceName);
+        const textWidth = metrics.width;
+        const textHeight = fontSize;
+        
+        // Add white outline with proportional thickness
+        context.strokeStyle = 'rgba(255, 255, 255, 0.9)';
+        context.lineWidth = Math.max(4, fontSize * 0.1);
         context.strokeText(serviceName, canvas.width/2, canvas.height/2);
         
-        // Add colored glow
+        // Add colored glow with proportional blur
         context.shadowColor = `rgb(${service.color >> 16}, ${(service.color >> 8) & 255}, ${service.color & 255})`;
-        context.shadowBlur = 20;
+        context.shadowBlur = fontSize * 0.4;
         context.fillStyle = '#ffffff';
         context.fillText(serviceName, canvas.width/2, canvas.height/2);
 
@@ -553,7 +567,7 @@ function createServiceMeteors() {
         texture.minFilter = THREE.LinearFilter;
         texture.magFilter = THREE.LinearFilter;
 
-        const textGeometry = new THREE.PlaneGeometry(1.9, 0.5);
+        const textGeometry = new THREE.PlaneGeometry(2.4, 0.6);
         const textMaterial = new THREE.MeshBasicMaterial({
             map: texture,
             transparent: true,
@@ -567,7 +581,7 @@ function createServiceMeteors() {
         textGroup.add(textMesh);
 
         // Position text group
-        textGroup.position.set(1.2, 0.3, 0);
+        textGroup.position.set(1.5, 0.45, 0);
         serviceGroup.add(textGroup);
 
         // Set initial position
@@ -591,7 +605,9 @@ function createServiceMeteors() {
                 y: 0.0005,
                 z: 0.0005
             },
-            serviceKey: service.key
+            serviceKey: service.key,
+            textGroup: textGroup, // Store reference to text group for visibility control
+            isTextVisible: true // Track text visibility
         };
 
         scene.add(serviceGroup);
@@ -624,6 +640,26 @@ function animate() {
         // Make text always face camera
         const textGroup = meteor.children[1];
         textGroup.lookAt(camera.position);
+        
+        // Check distance from Earth center and hide text when close
+        const distanceFromEarth = Math.sqrt(
+            Math.pow(meteor.position.x, 2) + 
+            Math.pow(meteor.position.y, 2) + 
+            Math.pow(meteor.position.z, 2)
+        );
+        
+        // Hide text when close to Earth (distance < 2.5 units)
+        if (distanceFromEarth < 2.5) {
+            if (meteor.userData.isTextVisible) {
+                textGroup.visible = false;
+                meteor.userData.isTextVisible = false;
+            }
+        } else {
+            if (!meteor.userData.isTextVisible) {
+                textGroup.visible = true;
+                meteor.userData.isTextVisible = true;
+            }
+        }
     });
 
     // Animate background particles
@@ -919,7 +955,7 @@ function updateHero(lang) {
 }
 
 function updateServiceCards(lang) {
-    const services = ['carpentry', 'plumbing', 'electrical', 'mechanical'];
+    const services = ['carpentry', 'plumbing', 'electrical', 'mechanical', 'HomeServices'];
     const cards = document.querySelectorAll('.service-card');
     
     cards.forEach((card, index) => {
@@ -1030,7 +1066,7 @@ function updateServices(lang) {
 
     // Update service items
     const serviceItems = document.querySelectorAll('.service-item');
-    const serviceTypes = ['carpentry', 'plumbing', 'electrical', 'mechanical'];
+    const serviceTypes = ['carpentry', 'plumbing', 'electrical', 'mechanical', 'HomeServices'];
     
     serviceItems.forEach((item, index) => {
         const type = serviceTypes[index];
@@ -1059,7 +1095,7 @@ function updateCourses(lang) {
 
     // Update course cards
     const courseCards = document.querySelectorAll('.course-card');
-    const courseTypes = ['carpentry', 'plumbing', 'electrical', 'mechanical'];
+    const courseTypes = ['carpentry', 'plumbing', 'electrical', 'mechanical', 'HomeServices'];
     const levels = ['beginner', 'intermediate', 'advanced', 'expert'];
     
     courseCards.forEach((card, index) => {

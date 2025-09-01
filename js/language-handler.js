@@ -169,6 +169,12 @@ function updateAbout(lang) {
     if (visionTitle) visionTitle.textContent = translations[lang].about.vision.title;
     if (visionDesc) visionDesc.textContent = translations[lang].about.vision.description;
 
+    // تحديث قسم "عنّا" الجديد
+    const moreAboutText = document.querySelector('.more-about-us p');
+    if (moreAboutText) moreAboutText.textContent = translations[lang].about.more.title;
+
+
+
     // تحديث قسم الفريق
     const teamTitle = document.querySelector('.section-title');
     if (teamTitle) teamTitle.textContent = translations[lang].about.team.title;

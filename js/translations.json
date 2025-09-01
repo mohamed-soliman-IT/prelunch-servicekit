@@ -50,6 +50,15 @@
                     "Repair services",
                     "Installation support"
                 ]
+            },
+            "HomeServices": {
+                "title": "Home Services",
+                "description": "Comprehensive home maintenance and repair services",
+                "features": [
+                    "General home repairs",
+                    "Maintenance services",
+                    "Home improvement projects"
+                ]
             }
         },
         "app": {
@@ -108,7 +117,12 @@
                         "bio": "Operations expert ensuring smooth service delivery"
                     }
                 }
+            },
+
+            "more": {
+                "title" : "At ServiceKit, we deliver every service with trust and reliability at the core. Clients can choose their preferred technician with full transparency, reviewing detailed profiles that showcase ratings, experience, and past work. With flexible options, they can request urgent support, schedule a service for later, or simply book at their convenience. Once confirmed, the selected technician arrives on time and completes the job efficiently and professionally. From start to finish, we ensure a smooth, dependable experience that gives clients peace of mind and technicians the opportunity to thrive."
             }
+
         },
         "courses": {
             "title": "Professional Courses",
@@ -149,10 +163,14 @@
                     "title": "Electrical Systems",
                     "description": "Understand electrical systems and safety"
                 },
-                "mechanical": {
-                    "title": "Mechanical Engineering",
-                    "description": "Advanced mechanical systems and maintenance"
-                }
+                            "mechanical": {
+                "title": "Mechanical Engineering",
+                "description": "Advanced mechanical systems and maintenance"
+            },
+            "HomeServices": {
+                "title": "Home Services Management",
+                "description": "Learn comprehensive home maintenance and repair skills"
+            }
             }
         }
     },
@@ -206,6 +224,15 @@
                     "صيانة المعدات",
                     "خدمات الإصلاح",
                     "دعم التركيب"
+                ]
+            },
+            "HomeServices": {
+                "title": "خدمات المنزل",
+                "description": "خدمات شاملة لإصلاح وصيانة المنزل",
+                "features": [
+                    "إصلاحات منزلية عامة",
+                    "خدمات الصيانة",
+                    "مشاريع تحسين المنزل"
                 ]
             }
         },
@@ -265,6 +292,10 @@
                         "bio": "خبير عمليات يضمن تقديم الخدمة بسلاسة"
                     }
                 }
+            },
+
+            "more": {
+                "title" : "في ServiceKit هدفنا إن العميل يحس بالراحة والثقة من أول خطوة. علشان كده بنوفر له شفافية كاملة يقدر من خلالها يختار الفني المناسب له بعد ما يشوف تقييماته وخبرته وشغله السابق. وكمان بنوفر للعميل حرية تحديد نوع الخدمة: لو محتاجها حالًا كخدمة عاجلة، أو يحدد ميعاد يناسبه قدّام. بعد ما بيتأكد الطلب، الفني بيكون ملتزم يوصل في الميعاد المحدد وينفذ شغله باحترافية وكفاءة. وبكده نضمن إن العميل ياخد خدمة موثوقة وسهلة، والفني يلاقي فرصة يثبت نفسه ويطوّر شغله."
             }
         },
         "courses": {
@@ -306,10 +337,14 @@
                     "title": "الأنظمة الكهربائية",
                     "description": "فهم الأنظمة الكهربائية والسلامة"
                 },
-                "mechanical": {
-                    "title": "الهندسة الميكانيكية",
-                    "description": "الأنظمة الميكانيكية المتقدمة والصيانة"
-                }
+                            "mechanical": {
+                "title": "الهندسة الميكانيكية",
+                "description": "الأنظمة الميكانيكية المتقدمة والصيانة"
+            },
+            "HomeServices": {
+                "title": "إدارة خدمات المنزل",
+                "description": "تعلم مهارات شاملة في صيانة وإصلاح المنزل"
+            }
             }
         }
     }

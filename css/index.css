@@ -153,6 +153,7 @@ header {
     margin-bottom: clamp(15px, 2vh, 30px);
     text-shadow: 0 0 30px rgba(0, 255, 255, 0.7);
     animation: fadeInUp 1s ease forwards;
+    font-size: 4rem;
 }
 
 .subtitle {
@@ -252,6 +253,10 @@ header {
     
     .floating-cards {
         display: none;
+    }
+
+    .title {
+        font-size: 3rem;
     }
 }
 

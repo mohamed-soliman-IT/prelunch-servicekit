@@ -17,7 +17,7 @@ const translations = {
             "subtitle": "Professional services for all your needs",
             "carpentry": {
                 "title": "Carpentry",
-                "description": "Expert woodworking and furniture making services",
+                "description": "From custom furniture to precise repairs, our skilled carpenters bring craftsmanship and detail to every project. Whether it’s fixing, building, or upgrading, we make sure your woodwork is sturdy, functional, and beautifully finished.",
                 "features": [
           
                 ]
@@ -44,7 +44,24 @@ const translations = {
                 "features": [
 
                 ]
+            },
+
+            "HomeServices": {
+                "title": "Home Services",
+                "description": "Keep your home running smoothly with our reliable home services. From cleaning and organization to general maintenance, our trusted professionals take care of the details—so you can enjoy a comfortable and worry-free living space.",
+                "features": [
+
+                ]
             }
+
+
+
+
+
+
+
+
+
         },
         "app": {
             "android": "Android",
@@ -119,7 +136,7 @@ const translations = {
         },
         "about": {
             "title": "About ServiceKit",
-            "subtitle": "We connect skilled technicians with clients who need reliable services, anytime and anywhere.",
+            "subtitle": "We connect skilled technicians with clients who need reliable services, anytime and everywhere.",
             "mission": {
                 "title": "Our Mission",
                 "description": "Our mission is to simplify daily life by providing a trusted platform for accessing skilled technical services whenever and wherever they are needed. By prioritizing reliability, transparency, and long-term value, we ensure meaningful benefits for both clients and technicians."
@@ -152,6 +169,10 @@ const translations = {
                         "bio": "Shahd brings technical expertise and innovation to drive our platform's development and growth."
                     }
                 }
+            },
+
+            "more": {
+                "title" : "At ServiceKit, we deliver every service with trust and reliability at the core. Clients can choose their preferred technician with full transparency, reviewing detailed profiles that showcase ratings, experience, and past work. With flexible options, they can request urgent support, schedule a service for later, or simply book at their convenience. Once confirmed, the selected technician arrives on time and completes the job efficiently and professionally. From start to finish, we ensure a smooth, dependable experience that gives clients peace of mind and technicians the opportunity to thrive."
             }
         }
     },
@@ -173,7 +194,7 @@ const translations = {
             "subtitle": "خدمات احترافية لجميع احتياجاتك",
             "carpentry": {
                 "title": "النجارة",
-                "description": "خدمات النجارة وصناعة الأثاث الاحترافية",
+                "description": "لو محتاج تصلّح، تغيّر أو تعمل حاجة خشب جديدة، الفنيين المتخصصين في النجارة هيساعدوك باحترافية. من تصليح الأبواب والأثاث لحد الشغل المخصوص، هنضمنلك شغل متين، عملي ومتقن في كل مرة.",
                 "features": [
                     
                 ]
@@ -203,7 +224,32 @@ const translations = {
                 "features": [
 
                 ]
+            },
+            "HomeServices": {
+                "title": "الخدمات المنزلية",
+                "description": "مهما كانت احتياجات بيتك اليومية، فريقنا موجود يساعدك. من تنظيف وصيانة بسيطة لحد تنظيم وترتيب، هنهتم بالتفاصيل علشان تعيش في بيت مريح ومنظم.",
+                // "features": [
+                //     "صيانة المعدات",
+                //     "خدمات الإصلاح",
+                //     "دعم التركيب"
+                // ]
+                "features": [
+
+                ]
             }
+
+
+
+
+
+
+
+
+
+
+
+
+
         },
         "app": {
             "android": "أندرويد",
@@ -311,6 +357,11 @@ const translations = {
                         "bio": "تجلب شهد الخبرة التقنية والابتكار لدفع تطوير منصتنا ونموها."
                     }
                 }
+            },
+
+            
+            "more": {
+                "title" : "في ServiceKit هدفنا إن العميل يحس بالراحة والثقة من أول خطوة. علشان كده بنوفر له شفافية كاملة يقدر من خلالها يختار الفني المناسب له بعد ما يشوف تقييماته وخبرته وشغله السابق. وكمان بنوفر للعميل حرية تحديد نوع الخدمة: لو محتاجها حالًا كخدمة عاجلة، أو يحدد ميعاد يناسبه قدّام. بعد ما بيتأكد الطلب، الفني بيكون ملتزم يوصل في الميعاد المحدد وينفذ شغله باحترافية وكفاءة. وبكده نضمن إن العميل ياخد خدمة موثوقة وسهلة، والفني يلاقي فرصة يثبت نفسه ويطوّر شغله."
             }
         }
     }
@@ -374,7 +425,7 @@ function updateHero(lang) {
 }
 
 function updateServiceCards(lang) {
-    const services = ['carpentry', 'plumbing', 'electrical', 'mechanical'];
+    const services = ['carpentry', 'plumbing', 'electrical', 'mechanical', 'HomeServices'];
     const cards = document.querySelectorAll('.service-card');
     
     cards.forEach((card, index) => {
@@ -485,7 +536,7 @@ function updateServices(lang) {
 
     // Update service items
     const serviceItems = document.querySelectorAll('.service-item');
-    const serviceTypes = ['carpentry', 'plumbing', 'electrical', 'mechanical'];
+    const serviceTypes = ['carpentry', 'plumbing', 'electrical', 'mechanical', 'HomeServices'];
     
     serviceItems.forEach((item, index) => {
         const type = serviceTypes[index];
